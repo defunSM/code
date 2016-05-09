@@ -1,0 +1,13 @@
+#include <stdio.h>
+
+int array[] = {0,0,0} 
+  
+int main()
+{
+  
+}
+
+void createline(int array)
+{
+  
+}

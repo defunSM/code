@@ -1,0 +1,11 @@
+CC = gcc
+
+CFLAGS= -pg -Wall -g -fprofile-arcs -ftest-coverage 
+
+sampleclock: sampleclock.cc
+
+	$(CC) $(CFLAGS) sampleclock.cc -o sampleclock -lm
+
+clean:
+	rm -f *.o sampleclock
+

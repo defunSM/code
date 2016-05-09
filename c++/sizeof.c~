@@ -1,0 +1,7 @@
+#include <stdio.h>
+#include <limit.h>
+
+int main():
+  printf("Size of float: %d", sizeof(float))
+  printf("Size of int: %d", sizeof(int))
+  

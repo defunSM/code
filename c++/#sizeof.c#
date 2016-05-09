@@ -1,0 +1,7 @@
+#include <stdio.h>
+alue of f: %f \n", f);
+
+  return 0;
+  
+}
+  

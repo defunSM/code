@@ -1,0 +1,17 @@
+// Double-spaces the entire file
+perl -pe '$\="\n"'
+
+// Remove Double-spaces
+perl -lpe '$\=""'
+
+// Backups the file stripping
+perl -i.bak -ne 'print unless /^#/' script.sh
+
+// Using lane to format a table
+ls -l | perl -lane 'print "$F[7] $[1]"'
+
+// Using a delimiter to split which lines using -F: /etc/password
+perl -F: -lane 'print $F[0]' /etc/passwd
+
+// Adding columns of cvs code
+perl -F, -lane '$t += $F[0]; END { print $t }'
