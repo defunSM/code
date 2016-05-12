@@ -453,3 +453,67 @@ lucky-number
 (parse (slurp "https://www.google.com/?gws_rd=ssl#q=word"))
 
 (def ^:dynamic *notification-address* "dobby@elf.org")
+
+(= #{} (set nil))
+
+(= 3 (count #{1 2 3}))
+
+(= #{1 2 3 4 5} (set '(1 1 2 2 3 3 4 4 5 5)))
+
+(= #{1 2 3 4 5} (clojure.set/union #{1 2 3 4} #{2 3 5}))
+
+(= {:a :b} (hash-map :a :b))
+
+(get {:a 1 :b 2} :b)
+
+(= ({:a 1 :b 2} :b) (get {:a 1 :b 2} :b))
+
+(time ({:a 1 :b 2} :b))
+
+(time (:b {:a 1 :b 2}))
+
+(time (assoc {:a 1 :b 2} :c 3))
+
+(= 6 (#(* 3 %1 %2) 1 2))
+
+(= 25 ((fn [x] (x 5)) (fn [n] (* n n))))
+
+(let [x 5]
+  (= :your-road (cond (= x 1) :false-road
+                      (= x 2) :falsey-road
+                      :else :your-road)))
+
+(if-not (zero? 1)
+  true
+  false)
+
+(defn explain-defcon [term]
+  (case term
+    :level-one :blue
+    :level-two :red
+    :level-three :green))
+
+(explain-defcon :level-two)
+
+(map (fn [x] (* x x)) (vec (range 0 10)))
+
+(= "longest" (reduce (fn [a b]
+                       (if (< (count a) (count b)) b a))
+                     ["which" "word" "is" "longest"]))
+
+(defmulti diet (fn [x] (:eater x)))
+(defmethod diet :herbivore [a] (str (:name a) " eats leafs."))
+(defmethod diet :carnivore [a] (str (:name a) " eats meat."))
+
+(def salman (atom {:name "Salman" :eater :carnivore}))
+(def shihab (atom {:name "Shihab" :eater :herbivore}))
+
+(time (reset! shihab (assoc @shihab :eater :herbivore)))
+
+(defn carnivore? [x] (if (= (:eater x) :carnivore)
+                       true
+                       false))
+
+(carnivore? @shihab)
+
+@salman
