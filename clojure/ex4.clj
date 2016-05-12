@@ -517,3 +517,166 @@ lucky-number
 (carnivore? @shihab)
 
 @salman
+
+(ns koans.meditations.lazy-sequences)
+
+"There are many ways to generate a sequence"
+(= '(1 2 3 4) (range 1 5))
+
+  "The range starts at the beginning by default"
+(= '(0 1 2 3 4) (range 5))
+
+  "Only take what you need when the sequence is large"
+(= [0 1 2 3 4 5 6 7 8 9]
+     (take 10 (range 100)))
+
+  "Or limit results by dropping what you don't need"
+(= [95 96 97 98 99]
+   (drop 95 (range 100)))
+
+  "Iteration provides an infinite lazy sequence"
+(= (range 20) (take 20 (iterate inc 0)))
+
+
+
+  "Repetition is key"
+(= [:a :a :a :a :a :a :a :a :a :a ]
+   (repeat 10 :a))
+
+  "Iteration can be used for repetition"
+(= (repeat 100 :foo)
+   (take 100 (iterate (fn [x] x) :foo)))
+
+(repeat 100 :foo)
+
+
+
+"Sequence comprehensions can bind each element in turn to a symbol"
+(= '(0 1 2 3 4 5)
+   (for [index (range 6)]
+     index))
+
+  "They can easily emulate mapping"
+(= '(0 1 4 9 16 25)
+   (map (fn [index] (* index index))
+        (range 6))
+   (for [index (range 6)]
+     (* index index)))
+
+  "And also filtering"
+(= '(1 3 5 7 9)
+   (filter odd? (range 10))
+   (for [index (range 10) :when (odd? index)]
+     index))
+
+  "Combinations of these transformations is trivial"
+  (= '(1 9 25 49 81)
+     (map (fn [index] (* index index))
+          (filter odd? (range 10)))
+     (for [index (range 10) :when (odd? index)]
+       (* index index)))
+
+  "More complex transformations simply take multiple binding forms"
+  (= [[:top :left] [:top :middle] [:top :right]
+      [:middle :left] [:middle :middle] [:middle :right]
+      [:bottom :left] [:bottom :middle] [:bottom :right]]
+       (for [row [:top :middle :bottom]
+             column [:left :middle :right]]
+         [row column]))
+
+
+"One may know what they seek by knowing what they do not seek"
+(= [true false true] (let [not-a-symbol? (complement symbol?)]
+                 (map not-a-symbol? [:a 'b "c"])))
+
+  "Praise and 'complement' may help you separate the wheat from the chaff"
+  (= [:wheat "wheat" 'wheat]
+       (let [not-nil? (complement nil?)]
+         (filter not-nil? [nil :wheat nil "wheat" nil 'wheat nil])))
+
+  "Partial functions allow procrastination"
+  (= 20 (let [multiply-by-5 (partial * 5)]
+          (multiply-by-5 4)))
+
+  "Don't forget: first things first"
+  (= [:a :b :c :d]
+       (let [ab-adder (partial concat [:a :b])]
+         (ab-adder [:c :d])))
+
+(defn square [n] (* n n))
+  "Functions can join forces as one 'composed' function"
+(= 25 (let [inc-and-square (comp square inc)]
+        (inc-and-square 4)))
+
+  "Have a go on a double dec-er"
+(= 8 (let [double-dec (comp dec dec)]
+         (double-dec 10)))
+
+  "Be careful about the order in which you mix your functions"
+  (= 99 (let [square-and-dec (comp dec square)]
+          (square-and-dec 10)))
+
+#_(def koans '(
+  "Recursion ends with a base case"
+  (= true (is-even? 0))
+
+  "And starts by moving toward that base case"
+  (= false (is-even? 1))
+
+  #_(
+  "Having too many stack frames requires explicit tail calls with recur"
+  (= false (is-even-bigint? 100003N))
+  )
+
+  "Reversing directions is easy when you have not gone far"
+  (= '(1) (recursive-reverse [1]))
+
+  "Yet it becomes more difficult the more steps you take"
+  (= '(5 4 3 2 1) (recursive-reverse [1 2 3 4 5]))
+
+  "Simple things may appear simple."
+  (= 1 (factorial 1))
+
+  "They may require other simple steps."
+  (= 2 (factorial 2))
+
+  "Sometimes a slightly bigger step is necessary"
+  (= 6 (factorial 3))
+
+  "And eventually you must think harder"
+  (= 24 (factorial 4))
+
+  #(_
+  "You can even deal with very large numbers"
+  (< 1000000000000000000000000N (factorial 1000N))
+
+  "But what happens when the machine limits you?"
+  (< 1000000000000000000000000N (factorial 100003N))
+  )
+))
+
+(defn factorial [n]
+  (loop [n n
+         acc 1]
+    (if (= 0 n)
+      acc
+      (recur (dec n) (* n (acc))))))
+
+(defn is-even? [n]
+    (if (= n 0)
+      true
+      (not (is-even? (dec n)))))
+
+(defn is-even-bigint? [n]
+    (loop [n   n
+           acc true]
+      (if (= n 0)
+        acc
+        (recur (dec n) (not acc)))))
+
+(defn recursive-reverse [coll]
+  (loop [coll coll
+         reversed ()]
+    (if (= () coll)
+      reversed
+      (recur (rest coll) (cons (first coll) reversed)))))

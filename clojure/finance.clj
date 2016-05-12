@@ -21,22 +21,43 @@
   (let [accountname (validAccount? (read))]
     (if (true? accountname))))
 
-(accessatm)
+(def account (atom {:name 0
+                    :age 0
+                    :total 0
+                    :debit 0
+                    :cash 0}))
 
-(defmacro infix
-  [infix]
-  (list (second infix) (first infix) (last infix)))
+(defn resetaccount [acc] (reset! acc {:name 0
+                                       :age 0
+                                       :total 0
+                                       :debit 0
+                                       :cash 0}))
 
-(infix (1 + 1))
+(defn change [acc change amount] (reset! acc (assoc @acc change amount)))
+(defn display-account [acc sel] (sel @acc))
 
-(let [account (read)]
-  (when (eq account "Salman")
-    (println "TRUE")))
+(defn setname [acc name] (change acc :name name))
+(defn setage [acc age] (change acc :age age))
+(defn settotal [acc total] (change acc :total total))
+(defn setdebit [acc debit] (change acc :debit debit))
+(defn setcash [acc cash] (change acc :cash cash))
 
-(def salman (atom {:name ""}))
+(defn display-name [acc] (display-account acc :name))
+(defn display-age [acc] (display-account acc :age))
+(defn display-total [acc] (display-account acc :total))
+(defn display-debit [acc] (display-account acc :debit))
+(defn display-cash [acc] (display-account acc :cash))
 
-(def fahim "Salman")
+(defn display-account-all [acc]
+  "Displays all account information."
+  (println "-------------------")
+  (println "Name: " (:name @acc))
+  (println "Age:  " (:age @acc))
+  (println "Total:" (:total @acc))
+  (println "Debit:" (:debit @acc))
+  (println "Cash: " (:cash @acc))
+  (println "-------------------"))
 
-(reset! salman {:name (str (read))})
+(display-account-all account)
 
-(= (:name @salman) "sa")
+(setdebit account 30)
