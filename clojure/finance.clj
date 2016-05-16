@@ -61,3 +61,7 @@
 (display-account-all account)
 
 (setdebit account 30)
+
+(defn somethingforme
+  "Somethingforme is a function that will print out the action."
+  [action] (println action))

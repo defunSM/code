@@ -277,8 +277,8 @@ lucky-number
        butter))
 
 (mock-api-call (if (satisfactory? baby-got-yak)
-  (println "This is satisfactory.")
-  (println "This is NOT satisfactory")))
+                (println "This is satisfactory.")
+                (println "This is NOT satisfactory")))
 
 (time (some (comp satisfactory? mock-api-call)
             [yak-butter-international better-than-nothing baby-got-yak]))
@@ -315,8 +315,8 @@ lucky-number
   saying3)
 
 (time @(-> (enqueue saying (wait 200 "'Ello, gov'na!") (println @saying))
-    (enqueue saying (wait 400 "Pip ip!") (println @saying))
-    (enqueue saying (wait 100 "Cheerio!") (println @saying))))
+        (enqueue saying (wait 400 "Pip ip!") (println @saying))
+        (enqueue saying (wait 100 "Cheerio!") (println @saying))))
 
 (defmacro enqueue
   ([q concurrent-promise-name concurrent serialized]
@@ -361,10 +361,10 @@ lucky-number
   (println "Current State:" @num))
 
 (-> (let [num (atom 1)
-      s1 @num]
-  (swap! num inc)
-  (println "State 1:" s1)
-  (println "Current State:" @num)))
+          s1 @num]
+     (swap! num inc)
+     (println "State 1:" s1)
+     (println "Current State:" @num)))
 
 (reset! fred {:cuddle-hunger-level 0
               :percent-deteriorated 0})
@@ -446,7 +446,7 @@ lucky-number
 
 (require 'clojure.xml)
 
-(parse )
+(parse)
 
 (use '[clojure.xml :only (parse)])
 
@@ -523,27 +523,27 @@ lucky-number
 "There are many ways to generate a sequence"
 (= '(1 2 3 4) (range 1 5))
 
-  "The range starts at the beginning by default"
+"The range starts at the beginning by default"
 (= '(0 1 2 3 4) (range 5))
 
-  "Only take what you need when the sequence is large"
+"Only take what you need when the sequence is large"
 (= [0 1 2 3 4 5 6 7 8 9]
-     (take 10 (range 100)))
+   (take 10 (range 100)))
 
-  "Or limit results by dropping what you don't need"
+"Or limit results by dropping what you don't need"
 (= [95 96 97 98 99]
    (drop 95 (range 100)))
 
-  "Iteration provides an infinite lazy sequence"
+"Iteration provides an infinite lazy sequence"
 (= (range 20) (take 20 (iterate inc 0)))
 
 
 
-  "Repetition is key"
-(= [:a :a :a :a :a :a :a :a :a :a ]
+"Repetition is key"
+(= [:a :a :a :a :a :a :a :a :a :a]
    (repeat 10 :a))
 
-  "Iteration can be used for repetition"
+"Iteration can be used for repetition"
 (= (repeat 100 :foo)
    (take 100 (iterate (fn [x] x) :foo)))
 
@@ -556,20 +556,20 @@ lucky-number
    (for [index (range 6)]
      index))
 
-  "They can easily emulate mapping"
+"They can easily emulate mapping"
 (= '(0 1 4 9 16 25)
    (map (fn [index] (* index index))
         (range 6))
    (for [index (range 6)]
      (* index index)))
 
-  "And also filtering"
+"And also filtering"
 (= '(1 3 5 7 9)
    (filter odd? (range 10))
    (for [index (range 10) :when (odd? index)]
      index))
 
-  "Combinations of these transformations is trivial"
+"Combinations of these transformations is trivial"
   (= '(1 9 25 49 81)
      (map (fn [index] (* index index))
           (filter odd? (range 10)))
@@ -580,19 +580,19 @@ lucky-number
   (= [[:top :left] [:top :middle] [:top :right]
       [:middle :left] [:middle :middle] [:middle :right]
       [:bottom :left] [:bottom :middle] [:bottom :right]]
-       (for [row [:top :middle :bottom]
-             column [:left :middle :right]]
-         [row column]))
+     (for [row [:top :middle :bottom]
+           column [:left :middle :right]]
+       [row column]))
 
 
 "One may know what they seek by knowing what they do not seek"
 (= [true false true] (let [not-a-symbol? (complement symbol?)]
-                 (map not-a-symbol? [:a 'b "c"])))
+                      (map not-a-symbol? [:a 'b "c"])))
 
-  "Praise and 'complement' may help you separate the wheat from the chaff"
+"Praise and 'complement' may help you separate the wheat from the chaff"
   (= [:wheat "wheat" 'wheat]
-       (let [not-nil? (complement nil?)]
-         (filter not-nil? [nil :wheat nil "wheat" nil 'wheat nil])))
+     (let [not-nil? (complement nil?)]
+       (filter not-nil? [nil :wheat nil "wheat" nil 'wheat nil])))
 
   "Partial functions allow procrastination"
   (= 20 (let [multiply-by-5 (partial * 5)]
@@ -600,60 +600,60 @@ lucky-number
 
   "Don't forget: first things first"
   (= [:a :b :c :d]
-       (let [ab-adder (partial concat [:a :b])]
-         (ab-adder [:c :d])))
+     (let [ab-adder (partial concat [:a :b])]
+       (ab-adder [:c :d])))
 
 (defn square [n] (* n n))
-  "Functions can join forces as one 'composed' function"
+"Functions can join forces as one 'composed' function"
 (= 25 (let [inc-and-square (comp square inc)]
         (inc-and-square 4)))
 
-  "Have a go on a double dec-er"
+"Have a go on a double dec-er"
 (= 8 (let [double-dec (comp dec dec)]
          (double-dec 10)))
 
-  "Be careful about the order in which you mix your functions"
+"Be careful about the order in which you mix your functions"
   (= 99 (let [square-and-dec (comp dec square)]
           (square-and-dec 10)))
 
 #_(def koans '(
-  "Recursion ends with a base case"
-  (= true (is-even? 0))
+               "Recursion ends with a base case"
+               (= true (is-even? 0))
 
-  "And starts by moving toward that base case"
-  (= false (is-even? 1))
+               "And starts by moving toward that base case"
+               (= false (is-even? 1))
 
-  #_(
-  "Having too many stack frames requires explicit tail calls with recur"
-  (= false (is-even-bigint? 100003N))
-  )
+               #_(
+                  "Having too many stack frames requires explicit tail calls with recur"
+                  (= false (is-even-bigint? 100003N)))
 
-  "Reversing directions is easy when you have not gone far"
-  (= '(1) (recursive-reverse [1]))
 
-  "Yet it becomes more difficult the more steps you take"
-  (= '(5 4 3 2 1) (recursive-reverse [1 2 3 4 5]))
+               "Reversing directions is easy when you have not gone far"
+               (= '(1) (recursive-reverse [1]))
 
-  "Simple things may appear simple."
-  (= 1 (factorial 1))
+               "Yet it becomes more difficult the more steps you take"
+               (= '(5 4 3 2 1) (recursive-reverse [1 2 3 4 5]))
 
-  "They may require other simple steps."
-  (= 2 (factorial 2))
+               "Simple things may appear simple."
+               (= 1 (factorial 1))
 
-  "Sometimes a slightly bigger step is necessary"
-  (= 6 (factorial 3))
+               "They may require other simple steps."
+               (= 2 (factorial 2))
 
-  "And eventually you must think harder"
-  (= 24 (factorial 4))
+               "Sometimes a slightly bigger step is necessary"
+               (= 6 (factorial 3))
 
-  #(_
-  "You can even deal with very large numbers"
-  (< 1000000000000000000000000N (factorial 1000N))
+               "And eventually you must think harder"
+               (= 24 (factorial 4))
 
-  "But what happens when the machine limits you?"
-  (< 1000000000000000000000000N (factorial 100003N))
-  )
-))
+               #(_
+                 "You can even deal with very large numbers"
+                 (< 1000000000000000000000000N (factorial 1000N))
+
+                 "But what happens when the machine limits you?"
+                 (< 1000000000000000000000000N (factorial 100003N)))))
+
+
 
 (defn factorial [n]
   (loop [n n
@@ -662,10 +662,14 @@ lucky-number
       acc
       (recur (dec n) (* n (acc))))))
 
+(factorial 10)
+
 (defn is-even? [n]
     (if (= n 0)
       true
       (not (is-even? (dec n)))))
+
+(is-even? 2)
 
 (defn is-even-bigint? [n]
     (loop [n   n
@@ -680,3 +684,228 @@ lucky-number
     (if (= () coll)
       reversed
       (recur (rest coll) (cons (first coll) reversed)))))
+
+(clojure.string/join (concat "s" "a"))
+
+(defn strict-map1 [f coll]
+    (loop [coll coll, acc nil]
+        (if (empty? coll)
+          (reverse acc)
+          (recur (next coll) (cons (f (first coll)) acc)))))
+
+
+(strict-map1 - (range 5))
+
+(defn strict-map2 [f coll]
+    (loop [coll coll, acc []]
+        (if (empty? coll)
+            acc
+            (recur (next coll) (conj acc (f (first coll)))))))
+
+(vector? (first {:width 10 :height 20 :depth 15}))
+
+(nth (vec {:width 10 :height 20 :depth 15}) 2)
+
+(doseq [[dimension amount] {:width 10 :height 20 :depth 15}]
+    (println (str (name dimension) ":") amount "inches"))
+
+(def dice1 (range 5))
+
+(range 5)
+
+(defmethod print-method clojure.lang.PersistentQueue
+  [q, w]
+  (print-method '<- w) (print-method (seq q) w) (print-method '-< w))
+
+(def schedule
+    (conj clojure.lang.PersistentQueue/EMPTY
+        :wake-up :shower :brush-teeth))
+
+(last schedule)
+
+(pop schedule)
+
+(def new (rest schedule))
+
+(#{:a :b :c :d} :c)
+
+(#{:a :b :c :d} :e)
+
+(get #{:a 1 :b 2} :b)
+
+#{[] ()}
+
+(sorted-set [3 4] [1 2])
+
+(def my-set (sorted-set :a :b))
+
+(contains? #(1 2 3 4) 4)
+
+(clojure.set/difference #{1 2 3 4} #{3 4 5 6})
+
+(defn xconj [t v]
+    (cond
+        (nil? t) {:val v :L nil :R nil}))
+
+(xconj nil 5)
+
+(def salman (ref {:name "Salman"}))
+
+(assoc @salman :age 10)
+
+(def the-world (ref "hello"))
+
+(def the-world (ref "hello"))
+(def bizarro-world (ref {}))
+
+(meditations
+  "In the beginning, there was a word"
+  (= __ (deref the-world))
+
+  "You can get the word more succinctly, but it's the same"
+  (= __ @the-world)
+
+  "You can be the change you wish to see in the world."
+
+
+
+  "Alter where you need not replace"
+  (= __ (let [exclamator (fn [x] (str x "!"))]
+          (dosync
+           (alter the-world exclamator)
+           (alter the-world exclamator)
+           (alter the-world exclamator))
+          @the-world))
+
+  "Don't forget to do your work in a transaction!"
+
+
+  "Functions passed to alter may depend on the data in the ref"
+
+
+  "Two worlds are better than one")
+
+
+
+(= "better" (do
+              (dosync (ref-set the-world "better"))
+              @the-world))
+
+(= 0 (do (dosync (ref-set the-world 0))
+         @the-world))
+
+(= 20 (do
+        (dosync (alter the-world (partial + 20)))))
+
+(def bizarro-world (ref {}))
+
+(= ["Real Jerry" "Bizarro Jerry"
+     (do
+       (dosync
+        (ref-set the-world {})
+        (alter the-world assoc :jerry "Real Jerry")
+        (alter bizarro-world assoc :jerry "Bizarro Jerry")))])
+
+(def atomic-clock (atom 0))
+
+"Atoms are like refs"
+(= 0 @atomic-clock
+
+  "You can change at the swap meet"
+  (= 1 (do
+          (swap! atomic-clock inc)
+          @atomic-clock))
+
+  "Keep taxes out of this: swapping requires no transaction"
+  (= 5 (do
+         (swap! atomic-clock + 4)
+         @atomic-clock))
+
+  "Any number of arguments might happen during a swap"
+  (= 20 (do
+          (swap! atomic-clock + 1 2 3 4 5)
+          @atomic-clock))
+
+  "Atomic atoms are atomic"
+  (= 20 (do
+          (compare-and-set! atomic-clock 100 :fin)
+          @atomic-clock))
+
+  "When your expectations are aligned with reality, things proceed that way"
+  (= :fin (do
+            (compare-and-set! atomic-clock 20 :fin)
+            @atomic-clock)))
+
+"Wrap a quote around a list to suppress evaluation"
+  (= (quote (1 2 3 4 5)) '(1 2 3 4 5))
+
+  "There is a shortcut too!"
+  (= (quote (1 2 3 4 5)) '(1 2 3 4 5))
+
+  "You can quote symbols as well as lists... without evaluation!"
+  (= __ (let [age 9] (quote age)))
+
+  "You can use a literal list as a data collection without having Clojure try to call a function"
+  (= (cons 1 (__ (2 3))) (list 1 2 3) (cons 1 [2 3]))
+
+  "The quote affects all of its arguments, not just the top level"
+(= (list 1 __) '(1 (+ 2 3))
+
+  "Syntax-quote (`) acts similarly to the normal quote")
+(= (list 1 2 3) `(1 2 3) '(1 2 3)
+
+
+  "Unquote (~) within a syntax-quoted expression lets you mark specific expressions as requiring evaluation")
+(= (list __ __) `(1 ~(+ 2 3)) '(1 5))
+
+(defmacro hello [x]
+  (str "Hello, " x))
+
+(defmacro infix [form]
+  (list (second form) (first form) (nth form 2)))
+
+(defn triangle
+  [n]
+  (/ (* n (+ n 1)) 2))
+
+(println (triangle 10))
+
+(map triangle (range 1 11))
+
+(def tri-nums (map triangle (iterate inc 1)))
+
+(take 10 tri-nums)
+
+(take 10 (filter even? tri-nums))
+
+(nth tri-nums 99)
+
+(take 2 (drop-while #(< % 10000) tri-nums))
+
+(double (reduce + (take 1000 (map / tri-nums))))
+
+(defn defer-expensive [cheap expensive]
+    (if-let [good-enough (force cheap)]
+        good-enough
+        (force expensive)))
+
+(defer-expensive (delay :cheap)
+                 (delay (do (Thread/sleep 5000) :expensive)))
+
+(defer-expensive (delay nil)
+                 (delay (do (Thread/sleep 500) :expensive)))
+
+(defn atest
+  [n]
+  (if-let [something n]
+      (println n)
+      (println "False")))
+
+(defn my-re-seq [re string]
+  (let [matcher (re-matcher re string)]
+    (loop [match (re-find matcher)
+           result []]
+      (if-not match
+        result
+        (recur (re-find match)
+               (conj result match))))))

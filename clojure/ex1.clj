@@ -786,7 +786,7 @@
 
 (defn parse-int
   [s]
-  (Integer. (re-find #"\d+" s )))
+  (Integer. (re-find #"\d+" s)))
 
 (print-letter select-num (read-string change))
 
