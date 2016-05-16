@@ -9,4 +9,15 @@ Working on a interface that will help keep track of spending, savings and money 
 
 Contains some functions that manipulates lists.
 
+## Python:
+#### pyth/happynumbers.py
+
+Determines which numbers are happy numbers. 
+  
+#### pyth/prime.py
+
+Determines prime numbers.
+
+#### pyth/prime.py
+
 
