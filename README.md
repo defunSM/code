@@ -18,6 +18,4 @@ Determines which numbers are happy numbers.
 
 Determines prime numbers.
 
-#### pyth/prime.py
-
 
