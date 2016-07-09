@@ -4,7 +4,6 @@
    (javax.swing JPanel JFrame Timer JOptionPane)
    (java.awt.event ActionListener KeyListener KeyEvent)))
 
-
 (def field-width 50)
 (def field-height 30)
 (def point-size 15)
