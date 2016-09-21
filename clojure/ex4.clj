@@ -659,8 +659,8 @@ lucky-number
   (loop [n n
          acc 1]
     (if (= 0 n)
-      acc
-      (recur (dec n) (* n (acc))))))
+      1
+      (recur (dec n) (* n acc)))))
 
 (factorial 10)
 

@@ -19,7 +19,9 @@
 
 (defn accessatm []
   (let [accountname (validAccount? (read))]
-    (if (true? accountname))))
+    (if (true? accountname)
+      (println "TRUE"))))
+
 
 (def account (atom {:name 0
                     :age 0
