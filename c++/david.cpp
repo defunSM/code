@@ -60,7 +60,7 @@ int findRow()
 
   printf("\n");
 
-  DISPLAY(sum);
+  printf("TOTAL: %i", sum);
 }
 
 int findCol()
