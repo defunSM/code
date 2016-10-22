@@ -8,15 +8,12 @@
   (reduce + (for [i arg]
               (count i))))
 
-(defn count-occurrences [s slist]
-  (->> slist
-       flatten
-       (filter #{s})
-       count))
+(defn count-occurrences [s list]
+  (count (filter #{s} (flatten list))))
 
 (defn percentage [min max dice outcome]
   (for [x (range min (+ max 1))]
-    (println x "           " (count-occurrences x dice) "               " (float (/ (count-occurrences x dice) outcome)) "%")))
+    (println x "           " (count-occurrences x dice) "               " (* 100 (float (/ (count-occurrences x dice) outcome))) "%")))
 
 (defn stats [low high]
   (let [dice-pos (create-dice low high)
