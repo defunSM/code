@@ -4,6 +4,8 @@
   (for [i (range low high)]
     (map (fn [b] (+ i b)) (range low high))))
 
+(create-dice 1 7)
+
 (defn outcome [arg]
   (reduce + (for [i arg]
               (count i))))
@@ -13,7 +15,7 @@
 
 (defn percentage [min max dice outcome]
   (for [x (range min (+ max 1))]
-    (println x "           " (count-occurrences x dice) "               " (* 100 (float (/ (count-occurrences x dice) outcome))) "%")))
+    (println x "           " (count-occurrences x dice) "               " (format "%.4f" (* 100 (float (/ (count-occurrences x dice) outcome)))) "%")))
 
 (defn stats [low high]
   (let [dice-pos (create-dice low high)
