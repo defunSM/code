@@ -1,6 +1,11 @@
 (ns sm.read)
 
 (use 'clojure.java.io)
+(use 'clojure.java.shell)
+(use 'clojure.pprint)
+(use 'clojure.string)
+
+(pprint (split (:out (sh "ls" "-l")) #"\n"))
 
 (defn pcurrentdir []
   (println "Current Directory:" (System/getProperty "user.dir")))
@@ -38,3 +43,5 @@
 (appendtofile)
 
 (fileappend "test.txt" "This is being added.")
+
+(System/in)
