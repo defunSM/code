@@ -46,3 +46,23 @@
 
 (defn spacetimeinterval2 [t1 t2 x1 x2]
   (Math/sqrt (- (Math/pow (- t2 t1) 2) (Math/pow (- x2 x1) 2))))
+
+(defn top [v degree] (println (* v (Math/sin (/ (* 2 3.14) 360)))))
+
+(top 0.1 5)
+
+(defn summation [] (range 0 15))
+
+(summation)
+
+(defn findsum []
+  (loop [n 0]
+    (if (= 531441 (Math/pow 3 n))
+      (println n)
+      (recur (+ n 1)))))
+
+(defn equation [n] (* 3 (Math/pow (/ 8 3) n)))
+
+(map #'equation (summation))
+
+(float (reduce + (map #'equation (summation))))
