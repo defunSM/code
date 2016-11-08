@@ -51,7 +51,7 @@
 
 (top 0.1 5)
 
-(defn summation [] (range 0 15))
+(defn summation [] (range 1 50000))
 
 (summation)
 
@@ -61,8 +61,12 @@
       (println n)
       (recur (+ n 1)))))
 
-(defn equation [n] (* 3 (Math/pow (/ 8 3) n)))
+(defn equation [n] (/ 1 n))
 
 (map #'equation (summation))
+
+(reduce + (map #'equation (summation)))
+
+(+ 1 (reduce + (map #'equation (summation))))
 
 (float (reduce + (map #'equation (summation))))
